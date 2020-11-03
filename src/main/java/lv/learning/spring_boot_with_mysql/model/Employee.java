@@ -6,13 +6,26 @@ import javax.persistence.*;
 @Table(name = "employees")
 public class Employee {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer emp_no;
     private String birth_date;
     private String first_name;
     private String last_name;
     private Character gender;
     private String hire_date;
+
+    public Employee() {
+
+    }
+
+    public Employee(Integer emp_no, String birth_date, String first_name, String last_name, Character gender, String hire_date) {
+        this.emp_no = emp_no;
+        this.birth_date = birth_date;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.gender = gender;
+        this.hire_date = hire_date;
+    }
 
     public Integer getEmp_no() {
         return emp_no;
