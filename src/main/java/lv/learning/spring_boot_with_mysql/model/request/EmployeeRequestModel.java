@@ -1,12 +1,12 @@
-package lv.learning.spring_boot_with_mysql.model;
+package lv.learning.spring_boot_with_mysql.model.request;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class EmployeeRequestModel {
     @Id
-//    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.TABLE) //IDENTITY
     private Integer emp_no;
     private String birth_date;
     private String first_name;
@@ -14,11 +14,11 @@ public class Employee {
     private Character gender;
     private String hire_date;
 
-    public Employee() {
+    public EmployeeRequestModel() {
 
     }
 
-    public Employee(Integer emp_no, String birth_date, String first_name, String last_name, Character gender, String hire_date) {
+    public EmployeeRequestModel(Integer emp_no, String birth_date, String first_name, String last_name, Character gender, String hire_date) {
         this.emp_no = emp_no;
         this.birth_date = birth_date;
         this.first_name = first_name;

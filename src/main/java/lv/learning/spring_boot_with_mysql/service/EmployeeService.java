@@ -1,16 +1,10 @@
 package lv.learning.spring_boot_with_mysql.service;
 
-import lv.learning.spring_boot_with_mysql.model.Employee;
+import lv.learning.spring_boot_with_mysql.model.response.EmployeeResponseModel;
 import lv.learning.spring_boot_with_mysql.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -25,7 +19,7 @@ public class EmployeeService {
 //            new Employee(2, "date1", "Alina", "Garipova", 'F', "date2")
 //    ));
 
-    public List<Employee> readAllEmployees() {
+    public List<EmployeeResponseModel> readAllEmployees() {
         // temp mockup
 //        return employees;
         // read all Employee records from DB
@@ -33,7 +27,7 @@ public class EmployeeService {
 //        employeeRepository.findAll().forEach(employees::add);
 //        return employees;
         // shorter version of the same as above
-        return (List<Employee>) employeeRepository.findAll();
+        return (List<EmployeeResponseModel>) employeeRepository.findAll();
     }
 
     // does not work atm
@@ -44,22 +38,22 @@ public class EmployeeService {
 //        return pageResult.toList();
 //    }
 
-    public Employee readEmployee(Integer emp_no) {
+    public EmployeeResponseModel readEmployee(Integer emp_no) {
         // temp mockup
 //        return employees.stream().filter(employee -> employee.getEmp_no().equals(emp_no)).findFirst().get();
         // read a single Employee record
-        Employee employee = employeeRepository.findById(emp_no).orElse(null);
-        return employee;
+        EmployeeResponseModel employeeResponseModel = employeeRepository.findById(emp_no).orElse(null);
+        return employeeResponseModel;
     }
 
-    public void createEmployee(Employee employee) {
+    public void createEmployee(EmployeeResponseModel employeeResponseModel) {
         // temp mockup
 //        employees.add(employee);
         // create new Employee record
-        employeeRepository.save(employee);
+        employeeRepository.save(employeeResponseModel);
     }
 
-    public void updateEmployee(Integer emp_no, Employee employee) {
+    public void updateEmployee(Integer emp_no, EmployeeResponseModel employeeResponseModel) {
         // temp mockup
 //        for (int i = 0; i < employees.size(); i++) {
 //            Employee e = employees.get(i);
@@ -70,7 +64,7 @@ public class EmployeeService {
 //        }
         // update an Employee record
         if (employeeRepository.findById(emp_no).orElse(null) != null) {
-            employeeRepository.save(employee);
+            employeeRepository.save(employeeResponseModel);
         }
     }
 
