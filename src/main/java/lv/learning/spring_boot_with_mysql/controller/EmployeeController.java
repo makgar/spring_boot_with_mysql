@@ -1,13 +1,18 @@
 package lv.learning.spring_boot_with_mysql.controller;
 
-import lv.learning.spring_boot_with_mysql.model.response.EmployeeResponseModel;
+import lv.learning.spring_boot_with_mysql.model.Employee;
+import lv.learning.spring_boot_with_mysql.model.EmployeeMock;
 import lv.learning.spring_boot_with_mysql.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
-@RequestMapping(path = "/employees")
+@RequestMapping(path = "/employees", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 public class EmployeeController {
 
     @Autowired
@@ -19,9 +24,9 @@ public class EmployeeController {
 //        return employeeService.readAllEmployees();
 //    }
 
-    @GetMapping
-    public Iterable<EmployeeResponseModel> readAllEmployees(@RequestParam(value="start") int start,
-                                                            @RequestParam(value="limit") int limit) {
+    @GetMapping//(produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    public Iterable<Employee> readAllEmployees(@RequestParam(value="start", defaultValue = "1", required = false) int start,
+                                               @RequestParam(value="limit", defaultValue = "2147483647", required = false) int limit) {
         return employeeService.readAllEmployees();
     }
 
@@ -35,19 +40,30 @@ public class EmployeeController {
 //        return Collections.emptyList();
 //    }
 
-    @GetMapping(path = "/{emp_no}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-    public EmployeeResponseModel readEmployee(@PathVariable Integer emp_no) {
+    @GetMapping(path = "/{emp_no}")//(path = "/{emp_no}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    public Employee readEmployee(@PathVariable Integer emp_no) {
         return employeeService.readEmployee(emp_no);
     }
 
     @PostMapping
-    public void createEmployee(@RequestBody EmployeeResponseModel employeeResponseModel) {
-        employeeService.createEmployee(employeeResponseModel);
+    public Employee createEmployee(@Valid @RequestBody Employee employee) {
+        return employeeService.createEmployee(employee);
     }
 
+//    @PostMapping(path = "/mock")
+//    public ResponseEntity<EmployeeMock> createEmployee(@Valid @RequestBody EmployeeMock employeeMock) {
+//        EmployeeMock newEmployee = new EmployeeMock();
+//        newEmployee.setBirth_date(employeeMock.getBirth_date());
+//        newEmployee.setFirst_name(employeeMock.getFirst_name());
+//        newEmployee.setLast_name(employeeMock.getLast_name());
+//        newEmployee.setGender(employeeMock.getGender());
+//        newEmployee.setHire_date(employeeMock.getHire_date());
+//        return new ResponseEntity<EmployeeMock>(newEmployee, HttpStatus.OK);
+//    }
+
     @PutMapping(path = "/{emp_no}")
-    public void updateEmployee(@RequestBody EmployeeResponseModel employeeResponseModel, @PathVariable Integer emp_no) {
-        employeeService.updateEmployee(emp_no, employeeResponseModel);
+    public Employee updateEmployee(@RequestBody Employee employee, @PathVariable Integer emp_no) {
+        return employeeService.updateEmployee(emp_no, employee);
     }
 
     @DeleteMapping(path = "/{emp_no}")

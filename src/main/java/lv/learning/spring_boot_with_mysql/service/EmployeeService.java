@@ -1,6 +1,7 @@
 package lv.learning.spring_boot_with_mysql.service;
 
-import lv.learning.spring_boot_with_mysql.model.response.EmployeeResponseModel;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import lv.learning.spring_boot_with_mysql.model.Employee;
 import lv.learning.spring_boot_with_mysql.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class EmployeeService {
 //            new Employee(2, "date1", "Alina", "Garipova", 'F', "date2")
 //    ));
 
-    public List<EmployeeResponseModel> readAllEmployees() {
+    public List<Employee> readAllEmployees() {
         // temp mockup
 //        return employees;
         // read all Employee records from DB
@@ -27,7 +28,7 @@ public class EmployeeService {
 //        employeeRepository.findAll().forEach(employees::add);
 //        return employees;
         // shorter version of the same as above
-        return (List<EmployeeResponseModel>) employeeRepository.findAll();
+        return (List<Employee>) employeeRepository.findAll();
     }
 
     // does not work atm
@@ -38,22 +39,28 @@ public class EmployeeService {
 //        return pageResult.toList();
 //    }
 
-    public EmployeeResponseModel readEmployee(Integer emp_no) {
+    public Employee readEmployee(Integer emp_no) {
         // temp mockup
 //        return employees.stream().filter(employee -> employee.getEmp_no().equals(emp_no)).findFirst().get();
         // read a single Employee record
-        EmployeeResponseModel employeeResponseModel = employeeRepository.findById(emp_no).orElse(null);
-        return employeeResponseModel;
+        Employee employee = employeeRepository.findById(emp_no).orElse(null);
+        return employee;
     }
 
-    public void createEmployee(EmployeeResponseModel employeeResponseModel) {
+    public Employee createEmployee(Employee employee) {
         // temp mockup
 //        employees.add(employee);
         // create new Employee record
-        employeeRepository.save(employeeResponseModel);
+        System.out.println("Gender char before = " + employee.getGender());
+        employee.setGender(Character.toUpperCase(employee.getGender()));
+        System.out.println("Gender char after = " + employee.getGender());
+        System.out.println("Id of the new JSON payload Employee = " + employee.getEmp_no());
+        Employee savedEmployee = employeeRepository.save(employee);
+        System.out.println("Id of the saved Employee = " + savedEmployee.getEmp_no());
+        return savedEmployee;
     }
 
-    public void updateEmployee(Integer emp_no, EmployeeResponseModel employeeResponseModel) {
+    public Employee updateEmployee(Integer emp_no, Employee employee) {
         // temp mockup
 //        for (int i = 0; i < employees.size(); i++) {
 //            Employee e = employees.get(i);
@@ -63,9 +70,31 @@ public class EmployeeService {
 //            }
 //        }
         // update an Employee record
-        if (employeeRepository.findById(emp_no).orElse(null) != null) {
-            employeeRepository.save(employeeResponseModel);
+        Employee existingEmployee = employeeRepository.findById(emp_no).orElse(null);
+        if (existingEmployee != null) {
+//            if (employee.getEmp_no() != null && employee.getEmp_no() != existingEmployee.getEmp_no()) {
+//                existingEmployee.setEmp_no(employee.getEmp_no());
+//            }
+            if (employee.getBirth_date() != null && !(employee.getBirth_date().equalsIgnoreCase(existingEmployee.getBirth_date()))) { // change to not equals
+                existingEmployee.setBirth_date(employee.getBirth_date());
+            }
+            if (employee.getFirst_name() != null && !(employee.getFirst_name().equalsIgnoreCase(existingEmployee.getFirst_name()))) {
+                existingEmployee.setFirst_name(employee.getFirst_name());
+            }
+            if (employee.getLast_name() != null && !(employee.getLast_name().equalsIgnoreCase(existingEmployee.getLast_name()))) {
+                existingEmployee.setLast_name(employee.getLast_name());
+            }
+            if (employee.getGender() != null) {
+                employee.setGender(Character.toUpperCase(employee.getGender()));
+                if (!(employee.getGender().equals(existingEmployee.getGender()))) {
+                    existingEmployee.setGender(employee.getGender());
+                }
+            }
+            if (employee.getHire_date() != null && !(employee.getHire_date().equalsIgnoreCase(existingEmployee.getHire_date()))) {
+                existingEmployee.setHire_date(employee.getHire_date());
+            }
         }
+        return employeeRepository.save(existingEmployee); // writes null, change
     }
 
     public void deleteEmployee(Integer emp_no) {
