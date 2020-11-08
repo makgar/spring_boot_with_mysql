@@ -1,17 +1,9 @@
 package lv.learning.spring_boot_with_mysql.model;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.context.annotation.Bean;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class EmployeeMock {
+public class EmployeeRequest {
     @NotNull
     private String birth_date;
     @NotNull
