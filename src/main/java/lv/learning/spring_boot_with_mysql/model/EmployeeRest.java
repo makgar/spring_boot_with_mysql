@@ -10,7 +10,10 @@ import org.hibernate.annotations.Parameter;
 public class EmployeeRest {
     @Id
     //@GeneratedValue(strategy=GenerationType.AUTO) //TABLE or IDENTITY
-    //Had to use custom sequence generator
+    /* None of the options above worked for me.
+    I assume the reason is that an existing pre-populated table with ~400000 records (from emp_no 100000 to emp_no
+    500000) is used, which has no in-built ID field population (no AUTO_INCREMENT or anything). Had to use custom
+    sequence generator below. Might change later, if I'll figure out how to make any of the basic options work. */
     @GeneratedValue(generator = "emp_no-sequence-generator")
     @GenericGenerator(
             name = "emp_no-sequence-generator",

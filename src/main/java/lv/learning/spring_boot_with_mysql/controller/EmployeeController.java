@@ -48,17 +48,6 @@ public class EmployeeController {
         return employeeService.createEmployee(employeeRequest);
     }
 
-//    @PostMapping(path = "/mock")
-//    public ResponseEntity<EmployeeRequest> createEmployee(@Valid @RequestBody EmployeeRequest employeeMock) {
-//        EmployeeRequest newEmployee = new EmployeeRequest();
-//        newEmployee.setBirth_date(employeeMock.getBirth_date());
-//        newEmployee.setFirst_name(employeeMock.getFirst_name());
-//        newEmployee.setLast_name(employeeMock.getLast_name());
-//        newEmployee.setGender(employeeMock.getGender());
-//        newEmployee.setHire_date(employeeMock.getHire_date());
-//        return new ResponseEntity<EmployeeRequest>(newEmployee, HttpStatus.OK);
-//    }
-
     @PutMapping(path = "/{emp_no}")
     public EmployeeRest updateEmployee(@RequestBody EmployeeRequest employeeRequest, @PathVariable Integer emp_no) {
         return employeeService.updateEmployee(emp_no, employeeRequest);

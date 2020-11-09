@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 //@Repository
 //public interface EmployeeRepository extends PagingAndSortingRepository<EmployeeRest, Integer> {
+
 @Repository
 public interface EmployeeRepository extends CrudRepository<EmployeeRest, Integer> {
 
