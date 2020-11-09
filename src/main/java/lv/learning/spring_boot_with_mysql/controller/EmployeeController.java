@@ -70,9 +70,10 @@ public class EmployeeController {
         short statusCode = employeeService.deleteEmployee(emp_no);
         switch (statusCode) {
             case 204:
-                return new ResponseEntity(HttpStatus.NO_CONTENT);
+                //return new ResponseEntity(HttpStatus.NO_CONTENT);
+                return new ResponseEntity("Employee record " + emp_no + " deleted.", HttpStatus.OK);
             case 404:
-                return new ResponseEntity(HttpStatus.NOT_FOUND);
+                return new ResponseEntity("Employee record " + emp_no + " not found.", HttpStatus.NOT_FOUND);
             default:
                 return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
