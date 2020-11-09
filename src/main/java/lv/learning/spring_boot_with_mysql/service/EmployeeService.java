@@ -1,16 +1,11 @@
 package lv.learning.spring_boot_with_mysql.service;
 
-import lv.learning.spring_boot_with_mysql.model.Employee;
+import lv.learning.spring_boot_with_mysql.model.EmployeeRequest;
+import lv.learning.spring_boot_with_mysql.model.EmployeeRest;
 import lv.learning.spring_boot_with_mysql.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -19,59 +14,71 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    // local mockup collection for testing purposes
-    private List<Employee> employees = new ArrayList<>(Arrays.asList(
-            new Employee(1, "date1", "Max", "Garipov", 'M', "date2"),
-            new Employee(2, "date1", "Alina", "Garipova", 'F', "date2")
-    ));
-
-    public List<Employee> readAllEmployees() {
-        // temp mockup
-        return employees;
-        // returning all Employee records from db table
-//        List<Employee> employees = new ArrayList<>();
+    // read all Employee records
+    public List<EmployeeRest> readAllEmployees() {
+//        List<EmployeeRest> employees = new ArrayList<>();
 //        employeeRepository.findAll().forEach(employees::add);
 //        return employees;
         // shorter version of the same as above
-//        return (List<Employee>) employeeRepository.findAll();
+        return (List<EmployeeRest>) employeeRepository.findAll();
     }
 
     // does not work atm
-//    public List<Employee> findPaginated(int pageNo, int pageSize) {
+//    public List<EmployeeRest> findPaginated(int pageNo, int pageSize) {
 //        Pageable paging = PageRequest.of(pageNo, pageSize);
-//        Page<Employee> pageResult = employeeRepository.findAll(paging);
+//        Page<EmployeeRest> pageResult = employeeRepository.findAll(paging);
 //
 //        return pageResult.toList();
 //    }
 
-    public Employee readEmployee(Integer emp_no) {
-        // temp mockup
-        return employees.stream().filter(employee -> employee.getEmp_no().equals(emp_no)).findFirst().get();
-//        Employee employee = employeeRepository.findById(emp_no).orElse(null);
-//        return employee;
+    // read a single Employee record
+    public EmployeeRest readEmployee(Integer emp_no) {
+        EmployeeRest employeeRest = employeeRepository.findById(emp_no).orElse(null);
+        return employeeRest;
     }
 
-    public void createEmployee(Employee employee) {
-        // temp mockup
-        employees.add(employee);
-        // to do
+    // create new Employee record
+    public EmployeeRest createEmployee(EmployeeRequest employeeRequest) {
+        System.out.println("Gender char before = " + employeeRequest.getGender());
+        employeeRequest.setGender(Character.toUpperCase(employeeRequest.getGender()));
+        System.out.println("Gender char after = " + employeeRequest.getGender());
+        EmployeeRest newEmployeeRest = new EmployeeRest();
+        newEmployeeRest.setBirth_date(employeeRequest.getBirth_date());
+        newEmployeeRest.setFirst_name(employeeRequest.getFirst_name());
+        newEmployeeRest.setLast_name(employeeRequest.getLast_name());
+        newEmployeeRest.setGender(employeeRequest.getGender());
+        newEmployeeRest.setHire_date(employeeRequest.getHire_date());
+        return employeeRepository.save(newEmployeeRest);
     }
 
-    public void updateEmployee(Integer emp_no, Employee employee) {
-        // temp mockup
-        for (int i = 0; i < employees.size(); i++) {
-            Employee e = employees.get(i);
-            if (e.getEmp_no().equals(emp_no)) {
-                employees.set(i, employee);
-                return;
+    // update an Employee record
+    public EmployeeRest updateEmployee(Integer emp_no, EmployeeRequest employeeRequest) {
+        EmployeeRest existingEmployeeRest = employeeRepository.findById(emp_no).orElse(null);
+        if (existingEmployeeRest != null) {
+            if (employeeRequest.getBirth_date() != null && !(employeeRequest.getBirth_date().equalsIgnoreCase(existingEmployeeRest.getBirth_date()))) {
+                existingEmployeeRest.setBirth_date(employeeRequest.getBirth_date());
+            }
+            if (employeeRequest.getFirst_name() != null && !(employeeRequest.getFirst_name().equalsIgnoreCase(existingEmployeeRest.getFirst_name()))) {
+                existingEmployeeRest.setFirst_name(employeeRequest.getFirst_name());
+            }
+            if (employeeRequest.getLast_name() != null && !(employeeRequest.getLast_name().equalsIgnoreCase(existingEmployeeRest.getLast_name()))) {
+                existingEmployeeRest.setLast_name(employeeRequest.getLast_name());
+            }
+            if (employeeRequest.getGender() != null) {
+                employeeRequest.setGender(Character.toUpperCase(employeeRequest.getGender()));
+                if (!(employeeRequest.getGender().equals(existingEmployeeRest.getGender()))) {
+                    existingEmployeeRest.setGender(employeeRequest.getGender());
+                }
+            }
+            if (employeeRequest.getHire_date() != null && !(employeeRequest.getHire_date().equalsIgnoreCase(existingEmployeeRest.getHire_date()))) {
+                existingEmployeeRest.setHire_date(employeeRequest.getHire_date());
             }
         }
-        // to do
+        return employeeRepository.save(existingEmployeeRest);
     }
 
+    // delete an Employee record
     public void deleteEmployee(Integer emp_no) {
-        // temp mockup
-        employees.removeIf(e -> e.getEmp_no().equals(emp_no));
-        // to do
+        employeeRepository.deleteById(emp_no);
     }
 }
