@@ -4,7 +4,9 @@ import lv.learning.spring_boot_with_mysql.model.EmployeeRequest;
 import lv.learning.spring_boot_with_mysql.model.EmployeeRest;
 import lv.learning.spring_boot_with_mysql.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,22 +41,40 @@ public class EmployeeController {
 //    }
 
     @GetMapping(path = "/{emp_no}")
-    public EmployeeRest readEmployee(@PathVariable Integer emp_no) {
-        return employeeService.readEmployee(emp_no);
+    public ResponseEntity<EmployeeRest> readEmployee(@PathVariable Integer emp_no) {
+        EmployeeRest employee = employeeService.readEmployee(emp_no);
+        if (employee != null) {
+            return new ResponseEntity<EmployeeRest>(employee, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
-    public EmployeeRest createEmployee(@Valid @RequestBody EmployeeRequest employeeRequest) {
-        return employeeService.createEmployee(employeeRequest);
+    public ResponseEntity<EmployeeRest> createEmployee(@Valid @RequestBody EmployeeRequest newEmployee) {
+        return new ResponseEntity<EmployeeRest>(employeeService.createEmployee(newEmployee), HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{emp_no}")
-    public EmployeeRest updateEmployee(@RequestBody EmployeeRequest employeeRequest, @PathVariable Integer emp_no) {
-        return employeeService.updateEmployee(emp_no, employeeRequest);
+    public ResponseEntity<EmployeeRest> updateEmployee(@RequestBody EmployeeRequest updateRequest, @PathVariable Integer emp_no) {
+        EmployeeRest updatedEmployee = employeeService.updateEmployee(emp_no, updateRequest);
+        if (updatedEmployee != null) {
+            return new ResponseEntity<EmployeeRest>(updatedEmployee, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping(path = "/{emp_no}")
-    public void deleteEmployee(@PathVariable Integer emp_no) {
-        employeeService.deleteEmployee(emp_no);
+    public ResponseEntity deleteEmployee(@PathVariable Integer emp_no) {
+        short statusCode = employeeService.deleteEmployee(emp_no);
+        switch (statusCode) {
+            case 204:
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            case 404:
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            default:
+                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
