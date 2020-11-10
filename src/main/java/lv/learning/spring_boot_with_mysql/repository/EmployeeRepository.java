@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 //@Repository
@@ -14,5 +15,7 @@ import java.util.List;
 public interface EmployeeRepository extends CrudRepository<EmployeeRest, Integer> {
     List<EmployeeRest> findFirst10ByGender(Character gender);
 
-//    List<EmployeeRest> findFirst10ByHire_dateAfter();
+    List<EmployeeRest> findFirst10ByHireDateAfter(LocalDate hireAfter);
+
+    List<EmployeeRest> findFirst10ByHireDateBefore(LocalDate hiredBefore);
 }

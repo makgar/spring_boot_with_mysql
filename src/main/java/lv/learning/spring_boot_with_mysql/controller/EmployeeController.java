@@ -4,12 +4,14 @@ import lv.learning.spring_boot_with_mysql.model.EmployeeRequest;
 import lv.learning.spring_boot_with_mysql.model.EmployeeRest;
 import lv.learning.spring_boot_with_mysql.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping(path = "/employees", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
@@ -26,9 +28,11 @@ public class EmployeeController {
 
     @GetMapping
     public Object readAllEmployees(@RequestParam(value="start", defaultValue = "1", required = false) Integer start,
-                                                   @RequestParam(value="limit", defaultValue = "2147483647", required = false) Integer limit,
-                                                   @RequestParam(value="gender", required = false) Character gender) {
-        return employeeService.readEmployees(start, limit, gender);
+                                   @RequestParam(value="limit", defaultValue = "2147483647", required = false) Integer limit,
+                                   @RequestParam(value="gender", required = false) Character gender,
+                                   @RequestParam(value="hired_after", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredAfter,
+                                   @RequestParam(value="hired_before", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredBefore) {
+        return employeeService.readEmployees(start, limit, gender, hiredAfter, hiredBefore);
     }
 
     // does not work atm

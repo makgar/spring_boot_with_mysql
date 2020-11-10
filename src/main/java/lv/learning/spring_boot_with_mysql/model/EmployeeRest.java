@@ -6,7 +6,6 @@ import javax.persistence.*;
 import org.hibernate.annotations.Parameter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "employees")
@@ -27,43 +26,49 @@ public class EmployeeRest {
                     @Parameter(name = "increment_size", value = "1")
             }
     )
-    private Integer emp_no;
-    private LocalDate birth_date;
-    private String first_name;
-    private String last_name;
+    @Column(name = "emp_no")
+    private Integer empNo;
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name =  "last_name")
+    private String lastName;
+    @Column
     private Character gender;
-    private LocalDate hire_date;
+    @Column(name = "hire_date")
+    private LocalDate hireDate;
 
-    public Integer getEmp_no() {
-        return emp_no;
+    public Integer getEmpNo() {
+        return empNo;
     }
 
-    public void setEmp_no(Integer emp_no) {
-        this.emp_no = emp_no;
+    public void setEmpNo(Integer empNo) {
+        this.empNo = empNo;
     }
 
-    public LocalDate getBirth_date() {
-        return birth_date;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirth_date(LocalDate birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Character getGender() {
@@ -74,11 +79,11 @@ public class EmployeeRest {
         this.gender = gender;
     }
 
-    public LocalDate getHire_date() {
-        return hire_date;
+    public LocalDate getHireDate() {
+        return hireDate;
     }
 
-    public void setHire_date(LocalDate hire_date) {
-        this.hire_date = hire_date;
+    public void setHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
     }
 }

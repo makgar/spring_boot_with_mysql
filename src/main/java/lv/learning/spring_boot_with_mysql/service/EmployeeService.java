@@ -6,7 +6,7 @@ import lv.learning.spring_boot_with_mysql.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,21 +25,29 @@ public class EmployeeService {
 //    }
 
     //    public Iterable<EmployeeRest> readEmployees(Integer start, Integer limit, Character gender) {
-    public Object readEmployees(Integer start, Integer limit, Character gender) {
-        if (gender == null) {
+    public Object readEmployees(Integer start, Integer limit, Character gender, LocalDate hiredAfter, LocalDate hiredBefore) {
+        if (gender == null && hiredAfter == null && hiredBefore == null) {
 //            List<EmployeeRest> employees = new ArrayList<>();
 //            employeeRepository.findAll().forEach(employees::add);
 //            return employees;
             // shorter version of the same as above
             return (List<EmployeeRest>) employeeRepository.findAll();
-        } else {
+        }
+        if (gender != null) {
             gender = Character.toUpperCase(gender);
             if (Character.compare(gender, 'M') != 0 && Character.compare(gender, 'F') != 0) {
-                return new String("Allowed values for gender parameter are {F, M} wheres you provided \"" + gender +"\"");
+                return new String("Allowed values for gender parameter are {F, M} wheres you provided \"" + gender + "\"");
             } else {
                 return employeeRepository.findFirst10ByGender(gender);
             }
         }
+        if (hiredAfter != null) {
+            return employeeRepository.findFirst10ByHireDateAfter(hiredAfter);
+        }
+        if (hiredBefore != null) {
+            return employeeRepository.findFirst10ByHireDateBefore(hiredBefore);
+        }
+        return null;
     }
 
     // does not work atm
@@ -63,11 +71,11 @@ public class EmployeeService {
         employeeRequest.setGender(Character.toUpperCase(employeeRequest.getGender()));
 //        System.out.println("Gender char after = " + employeeRequest.getGender());
         EmployeeRest newEmployee = new EmployeeRest();
-        newEmployee.setBirth_date(employeeRequest.getBirth_date());
-        newEmployee.setFirst_name(employeeRequest.getFirst_name());
-        newEmployee.setLast_name(employeeRequest.getLast_name());
+        newEmployee.setBirthDate(employeeRequest.getBirthDate());
+        newEmployee.setFirstName(employeeRequest.getFirstName());
+        newEmployee.setLastName(employeeRequest.getLastName());
         newEmployee.setGender(employeeRequest.getGender());
-        newEmployee.setHire_date(employeeRequest.getHire_date());
+        newEmployee.setHireDate(employeeRequest.getHireDate());
         return employeeRepository.save(newEmployee);
     }
 
@@ -75,14 +83,14 @@ public class EmployeeService {
     public EmployeeRest updateEmployee(Integer emp_no, EmployeeRequest updateRequest) {
         EmployeeRest storedEmployee = employeeRepository.findById(emp_no).orElse(null);
         if (storedEmployee != null) {
-            if (updateRequest.getBirth_date() != null && !(updateRequest.getBirth_date().equals(storedEmployee.getBirth_date()))) {
-                storedEmployee.setBirth_date(updateRequest.getBirth_date());
+            if (updateRequest.getBirthDate() != null && !(updateRequest.getBirthDate().equals(storedEmployee.getBirthDate()))) {
+                storedEmployee.setBirthDate(updateRequest.getBirthDate());
             }
-            if (updateRequest.getFirst_name() != null && !(updateRequest.getFirst_name().equalsIgnoreCase(storedEmployee.getFirst_name()))) {
-                storedEmployee.setFirst_name(updateRequest.getFirst_name());
+            if (updateRequest.getFirstName() != null && !(updateRequest.getFirstName().equalsIgnoreCase(storedEmployee.getFirstName()))) {
+                storedEmployee.setFirstName(updateRequest.getFirstName());
             }
-            if (updateRequest.getLast_name() != null && !(updateRequest.getLast_name().equalsIgnoreCase(storedEmployee.getLast_name()))) {
-                storedEmployee.setLast_name(updateRequest.getLast_name());
+            if (updateRequest.getLastName() != null && !(updateRequest.getLastName().equalsIgnoreCase(storedEmployee.getLastName()))) {
+                storedEmployee.setLastName(updateRequest.getLastName());
             }
             if (updateRequest.getGender() != null) {
                 updateRequest.setGender(Character.toUpperCase(updateRequest.getGender()));
@@ -90,8 +98,8 @@ public class EmployeeService {
                     storedEmployee.setGender(updateRequest.getGender());
                 }
             }
-            if (updateRequest.getHire_date() != null && !(updateRequest.getHire_date().equals(storedEmployee.getHire_date()))) {
-                storedEmployee.setHire_date(updateRequest.getHire_date());
+            if (updateRequest.getHireDate() != null && !(updateRequest.getHireDate().equals(storedEmployee.getHireDate()))) {
+                storedEmployee.setHireDate(updateRequest.getHireDate());
             }
 
             return employeeRepository.save(storedEmployee);
