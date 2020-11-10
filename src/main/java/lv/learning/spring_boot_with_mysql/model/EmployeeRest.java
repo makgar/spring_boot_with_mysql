@@ -5,6 +5,9 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import org.hibernate.annotations.Parameter;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Entity
 @Table(name = "employees")
 public class EmployeeRest {
@@ -25,11 +28,11 @@ public class EmployeeRest {
             }
     )
     private Integer emp_no;
-    private String birth_date;
+    private LocalDate birth_date;
     private String first_name;
     private String last_name;
     private Character gender;
-    private String hire_date;
+    private LocalDate hire_date;
 
     public Integer getEmp_no() {
         return emp_no;
@@ -39,11 +42,11 @@ public class EmployeeRest {
         this.emp_no = emp_no;
     }
 
-    public String getBirth_date() {
+    public LocalDate getBirth_date() {
         return birth_date;
     }
 
-    public void setBirth_date(String birth_date) {
+    public void setBirth_date(LocalDate birth_date) {
         this.birth_date = birth_date;
     }
 
@@ -71,11 +74,11 @@ public class EmployeeRest {
         this.gender = gender;
     }
 
-    public String getHire_date() {
+    public LocalDate getHire_date() {
         return hire_date;
     }
 
-    public void setHire_date(String hire_date) {
+    public void setHire_date(LocalDate hire_date) {
         this.hire_date = hire_date;
     }
 }

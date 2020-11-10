@@ -18,16 +18,17 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    // temporarily commented out
+    // commented out and will probably be removed
 //    @GetMapping
 //    public @ResponseBody Iterable<EmployeeRest> readAllEmployees() {
 //        return employeeService.readAllEmployees();
 //    }
 
     @GetMapping
-    public Iterable<EmployeeRest> readAllEmployees(@RequestParam(value="start", defaultValue = "1", required = false) int start,
-                                                   @RequestParam(value="limit", defaultValue = "2147483647", required = false) int limit) {
-        return employeeService.readAllEmployees();
+    public Object readAllEmployees(@RequestParam(value="start", defaultValue = "1", required = false) Integer start,
+                                                   @RequestParam(value="limit", defaultValue = "2147483647", required = false) Integer limit,
+                                                   @RequestParam(value="gender", required = false) Character gender) {
+        return employeeService.readEmployees(start, limit, gender);
     }
 
     // does not work atm
