@@ -30,8 +30,8 @@ public class EmployeeController {
     public Object readAllEmployees(@RequestParam(value="start", defaultValue = "1", required = false) Integer start,
                                    @RequestParam(value="limit", defaultValue = "2147483647", required = false) Integer limit,
                                    @RequestParam(value="gender", required = false) Character gender,
-                                   @RequestParam(value="hired_after", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredAfter,
-                                   @RequestParam(value="hired_before", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredBefore) {
+                                   @RequestParam(value="hiredAfter", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredAfter,
+                                   @RequestParam(value="hiredBefore", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredBefore) {
         return employeeService.readEmployees(start, limit, gender, hiredAfter, hiredBefore);
     }
 

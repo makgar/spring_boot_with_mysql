@@ -1,6 +1,7 @@
 package lv.learning.spring_boot_with_mysql.repository;
 
 import lv.learning.spring_boot_with_mysql.model.EmployeeRest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 

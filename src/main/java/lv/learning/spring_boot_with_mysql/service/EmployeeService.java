@@ -3,7 +3,9 @@ package lv.learning.spring_boot_with_mysql.service;
 import lv.learning.spring_boot_with_mysql.model.EmployeeRequest;
 import lv.learning.spring_boot_with_mysql.model.EmployeeRest;
 import lv.learning.spring_boot_with_mysql.repository.EmployeeRepository;
+import lv.learning.spring_boot_with_mysql.specification.EmployeeSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,28 +28,36 @@ public class EmployeeService {
 
     //    public Iterable<EmployeeRest> readEmployees(Integer start, Integer limit, Character gender) {
     public Object readEmployees(Integer start, Integer limit, Character gender, LocalDate hiredAfter, LocalDate hiredBefore) {
-        if (gender == null && hiredAfter == null && hiredBefore == null) {
-//            List<EmployeeRest> employees = new ArrayList<>();
-//            employeeRepository.findAll().forEach(employees::add);
-//            return employees;
-            // shorter version of the same as above
-            return (List<EmployeeRest>) employeeRepository.findAll();
-        }
-        if (gender != null) {
-            gender = Character.toUpperCase(gender);
-            if (Character.compare(gender, 'M') != 0 && Character.compare(gender, 'F') != 0) {
-                return new String("Allowed values for gender parameter are {F, M} wheres you provided \"" + gender + "\"");
-            } else {
-                return employeeRepository.findFirst10ByGender(gender);
-            }
-        }
-        if (hiredAfter != null) {
-            return employeeRepository.findFirst10ByHireDateAfter(hiredAfter);
-        }
-        if (hiredBefore != null) {
-            return employeeRepository.findFirst10ByHireDateBefore(hiredBefore);
-        }
-        return null;
+//        if (gender == null && hiredAfter == null && hiredBefore == null) {
+////            List<EmployeeRest> employees = new ArrayList<>();
+////            employeeRepository.findAll().forEach(employees::add);
+////            return employees;
+//            // shorter version of the same as above
+//            return (List<EmployeeRest>) employeeRepository.findAll();
+//        }
+//        if (gender != null) {
+//            gender = Character.toUpperCase(gender);
+//            if (Character.compare(gender, 'M') != 0 && Character.compare(gender, 'F') != 0) {
+//                return new String("Allowed values for gender parameter are {F, M} wheres you provided \"" + gender + "\"");
+//            } else {
+////                return employeeRepository.findFirst10ByGender(gender);
+//                return employeeRepository.findAll(Specification.where(gender == null ? null : EmployeeSpecification.hasGender(gender)));
+//            }
+//        }
+//        if (hiredAfter != null) {
+//            return employeeRepository.findFirst10ByHireDateAfter(hiredAfter);
+////            return employeeRepository.findAll(Specification.where(hiredAfter == null ? null : EmployeeSpecification.hiredAfter(hiredAfter)));
+//        }
+//        if (hiredBefore != null) {
+//            return employeeRepository.findFirst10ByHireDateBefore(hiredBefore);
+////            return employeeRepository.findAll(Specification.where(hiredBefore == null ? null : EmployeeSpecification.hiredBefore(hiredBefore)));
+//        }
+//        return null;
+
+        return employeeRepository.findAll(Specification
+                .where(gender == null ? null : EmployeeSpecification.hasGender(gender))
+                .and(hiredAfter == null ? null : EmployeeSpecification.hiredAfter(hiredAfter))
+                .and(hiredBefore == null ? null : EmployeeSpecification.hiredBefore(hiredBefore)));
     }
 
     // does not work atm
@@ -116,9 +126,5 @@ public class EmployeeService {
         } else {
             return 404;
         }
-    }
-
-    public String readEmployeesWithParams(char gender) {
-        return "Requested gender is " + gender;
     }
 }
