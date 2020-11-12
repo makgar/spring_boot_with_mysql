@@ -3,6 +3,7 @@ package lv.learning.spring_boot_with_mysql.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+
 import org.hibernate.annotations.Parameter;
 
 import java.time.LocalDate;
@@ -32,7 +33,7 @@ public class EmployeeRest {
     private LocalDate birthDate;
     @Column(name = "first_name")
     private String firstName;
-    @Column(name =  "last_name")
+    @Column(name = "last_name")
     private String lastName;
     @Column
     private Character gender;

@@ -18,40 +18,20 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping(path = "/employees", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+@RequestMapping(path = "/employees", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    // commented out and will probably be removed
-//    @GetMapping
-//    public @ResponseBody Iterable<EmployeeRest> readAllEmployees() {
-//        return employeeService.readAllEmployees();
-//    }
-
     @GetMapping
-    //public Object readAllEmployees(@RequestParam(value="start", defaultValue = "1", required = false) Integer start,
-                                   //@RequestParam(value="limit", defaultValue = "2147483647", required = false) Integer limit,
-                                   //@RequestParam(defaultValue = "lastName,asc") String[] sort,
-    public Page<EmployeeRest> readAllEmployees(@RequestParam(value="gender", required = false) Character gender,
-                                 @RequestParam(value="hiredAfter", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredAfter,
-                                 @RequestParam(value="hiredBefore", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredBefore,
-                                 @SortDefault(sort = "lastName", direction = Sort.Direction.ASC) Sort sort,
-                                 Pageable pageRequest) {
-//        return employeeService.readEmployees(start, limit, gender, hiredAfter, hiredBefore, sort);
+    public Page<EmployeeRest> readAllEmployees(@RequestParam(value = "gender", required = false) Character gender,
+                                               @RequestParam(value = "hiredAfter", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredAfter,
+                                               @RequestParam(value = "hiredBefore", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredBefore,
+                                               @SortDefault(sort = "lastName", direction = Sort.Direction.ASC) Sort sort,
+                                               Pageable pageRequest) {
         return employeeService.readEmployees(gender, hiredAfter, hiredBefore, sort, pageRequest);
     }
-
-    // does not work atm
-//    @GetMapping(path = "/employees", params = { "page", "size" })
-//    public @ResponseBody Iterable<EmployeeRest> getEmployeesPaginated(@RequestParam("page") int page,
-//                                                                  @RequestParam("size") int size,
-//                                                                  UriComponentsBuilder uriComponentsBuilder,
-//                                                                  HttpServletResponse httpServletResponse) {
-//        Page<EmployeeRest> resultPage = employeeService.findPaginated(page, size);
-//        return Collections.emptyList();
-//    }
 
     @GetMapping(path = "/{emp_no}")
     public ResponseEntity<EmployeeRest> readEmployee(@PathVariable Integer emp_no) {
