@@ -5,6 +5,9 @@ import lv.learning.spring_boot_with_mysql.model.EmployeeRest;
 import lv.learning.spring_boot_with_mysql.repository.EmployeeRepository;
 import lv.learning.spring_boot_with_mysql.specification.EmployeeSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -28,7 +31,8 @@ public class EmployeeService {
 //    }
 
     //    public Iterable<EmployeeRest> readEmployees(Integer start, Integer limit, Character gender) {
-    public Object readEmployees(Integer start, Integer limit, Character gender, LocalDate hiredAfter, LocalDate hiredBefore, Sort sort) {
+    //public Object readEmployees(Integer start, Integer limit, Character gender, LocalDate hiredAfter, LocalDate hiredBefore, Sort sort) {
+    public Page<EmployeeRest> readEmployees(Character gender, LocalDate hiredAfter, LocalDate hiredBefore, Sort sort, Pageable pageRequest) {
 //        if (gender == null && hiredAfter == null && hiredBefore == null) {
 ////            List<EmployeeRest> employees = new ArrayList<>();
 ////            employeeRepository.findAll().forEach(employees::add);
@@ -55,12 +59,22 @@ public class EmployeeService {
 //        }
 //        return null;
 
-        return employeeRepository.findAll(Specification
-                .where(gender == null ? null : EmployeeSpecification.hasGender(gender))
-                .and(hiredAfter == null ? null : EmployeeSpecification.hiredAfter(hiredAfter))
-                .and(hiredBefore == null ? null : EmployeeSpecification.hiredBefore(hiredBefore)),
+//        return employeeRepository.findAll(Specification
+//                        .where(gender == null ? null : EmployeeSpecification.hasGender(gender))
+//                        .and(hiredAfter == null ? null : EmployeeSpecification.hiredAfter(hiredAfter))
+//                        .and(hiredBefore == null ? null : EmployeeSpecification.hiredBefore(hiredBefore)),
+//                //sort == null ? defaultOrderBy() : sort,
+//                sort);
+        Pageable paging = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize(), sort);
+
+        Page<EmployeeRest> employees = employeeRepository.findAll(Specification
+                        .where(gender == null ? null : EmployeeSpecification.hasGender(gender))
+                        .and(hiredAfter == null ? null : EmployeeSpecification.hiredAfter(hiredAfter))
+                        .and(hiredBefore == null ? null : EmployeeSpecification.hiredBefore(hiredBefore)),
                 //sort == null ? defaultOrderBy() : sort,
-                sort);
+                paging);
+
+        return employees;
     }
 
     // does not work atm
