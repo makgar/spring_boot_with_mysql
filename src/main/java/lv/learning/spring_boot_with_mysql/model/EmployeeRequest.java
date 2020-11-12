@@ -2,43 +2,44 @@ package lv.learning.spring_boot_with_mysql.model;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 public class EmployeeRequest {
     @NotNull
-    private String birth_date;
+    private LocalDate birthDate;
     @NotNull
     @Size(min = 1, max = 14)
-    private String first_name;
+    private String firstName;
     @NotNull
     @Size(min = 1, max = 16)
-    private String last_name;
+    private String lastName;
     @NotNull
     private Character gender;
     @NotNull
-    private String hire_date;
+    private LocalDate hireDate;
 
-    public String getBirth_date() {
-        return birth_date;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirth_date(String birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Character getGender() {
@@ -49,11 +50,11 @@ public class EmployeeRequest {
         this.gender = gender;
     }
 
-    public String getHire_date() {
-        return hire_date;
+    public LocalDate getHireDate() {
+        return hireDate;
     }
 
-    public void setHire_date(String hire_date) {
-        this.hire_date = hire_date;
+    public void setHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
     }
 }
