@@ -2,6 +2,7 @@ package lv.learning.spring_boot_with_mysql.specification;
 
 import lv.learning.spring_boot_with_mysql.model.EmployeeRest;
 import lv.learning.spring_boot_with_mysql.model.EmployeeRest_;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;

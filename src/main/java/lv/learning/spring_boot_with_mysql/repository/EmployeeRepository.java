@@ -5,16 +5,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 
 //@Repository
-//public interface EmployeeRepository extends PagingAndSortingRepository<EmployeeRest, Integer> {
+//public interface EmployeeRepository extends CrudRepository<EmployeeRest, Integer>, JpaSpecificationExecutor<EmployeeRest> {
 
 @Repository
-public interface EmployeeRepository extends CrudRepository<EmployeeRest, Integer>, JpaSpecificationExecutor<EmployeeRest> {
+public interface EmployeeRepository extends PagingAndSortingRepository<EmployeeRest, Integer>, JpaSpecificationExecutor<EmployeeRest> {
     List<EmployeeRest> findFirst10ByGender(Character gender);
 
     List<EmployeeRest> findFirst10ByHireDateAfter(LocalDate hireAfter);

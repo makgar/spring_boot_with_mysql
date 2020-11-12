@@ -5,6 +5,7 @@ import lv.learning.spring_boot_with_mysql.model.EmployeeRest;
 import lv.learning.spring_boot_with_mysql.repository.EmployeeRepository;
 import lv.learning.spring_boot_with_mysql.specification.EmployeeSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class EmployeeService {
 //    }
 
     //    public Iterable<EmployeeRest> readEmployees(Integer start, Integer limit, Character gender) {
-    public Object readEmployees(Integer start, Integer limit, Character gender, LocalDate hiredAfter, LocalDate hiredBefore) {
+    public Object readEmployees(Integer start, Integer limit, Character gender, LocalDate hiredAfter, LocalDate hiredBefore, Sort sort) {
 //        if (gender == null && hiredAfter == null && hiredBefore == null) {
 ////            List<EmployeeRest> employees = new ArrayList<>();
 ////            employeeRepository.findAll().forEach(employees::add);
@@ -57,7 +58,9 @@ public class EmployeeService {
         return employeeRepository.findAll(Specification
                 .where(gender == null ? null : EmployeeSpecification.hasGender(gender))
                 .and(hiredAfter == null ? null : EmployeeSpecification.hiredAfter(hiredAfter))
-                .and(hiredBefore == null ? null : EmployeeSpecification.hiredBefore(hiredBefore)));
+                .and(hiredBefore == null ? null : EmployeeSpecification.hiredBefore(hiredBefore)),
+                //sort == null ? defaultOrderBy() : sort,
+                sort);
     }
 
     // does not work atm
@@ -127,4 +130,10 @@ public class EmployeeService {
             return 404;
         }
     }
+
+//    private Sort defaultOrderBy() {
+//        System.out.println("marker!");
+//        Sort sort = Sort.by(Sort.Direction.ASC, "lastName");
+//        return sort;
+//    }
 }

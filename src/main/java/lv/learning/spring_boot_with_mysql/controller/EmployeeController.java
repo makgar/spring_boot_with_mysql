@@ -4,6 +4,8 @@ import lv.learning.spring_boot_with_mysql.model.EmployeeRequest;
 import lv.learning.spring_boot_with_mysql.model.EmployeeRest;
 import lv.learning.spring_boot_with_mysql.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,10 +31,12 @@ public class EmployeeController {
     @GetMapping
     public Object readAllEmployees(@RequestParam(value="start", defaultValue = "1", required = false) Integer start,
                                    @RequestParam(value="limit", defaultValue = "2147483647", required = false) Integer limit,
+                                   //@RequestParam(defaultValue = "lastName,asc") String[] sort,
                                    @RequestParam(value="gender", required = false) Character gender,
                                    @RequestParam(value="hiredAfter", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredAfter,
-                                   @RequestParam(value="hiredBefore", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredBefore) {
-        return employeeService.readEmployees(start, limit, gender, hiredAfter, hiredBefore);
+                                   @RequestParam(value="hiredBefore", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredBefore,
+                                   @SortDefault(sort = "lastName", direction = Sort.Direction.ASC) Sort sort) {
+        return employeeService.readEmployees(start, limit, gender, hiredAfter, hiredBefore, sort);
     }
 
     // does not work atm
