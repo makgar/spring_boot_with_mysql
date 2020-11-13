@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
-public class Employee {
+public class EmployeeRequest {
     @NotNull
     private LocalDate birthDate;
     //    private String birthDate;

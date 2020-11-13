@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class EmployeeEntity {
     @Id
     //@GeneratedValue(strategy=GenerationType.AUTO) //TABLE or IDENTITY
     /* None of the options above worked for me.

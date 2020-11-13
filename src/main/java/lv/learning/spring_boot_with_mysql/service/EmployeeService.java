@@ -1,6 +1,7 @@
 package lv.learning.spring_boot_with_mysql.service;
 
-import lv.learning.spring_boot_with_mysql.model.request.Employee;
+import lv.learning.spring_boot_with_mysql.model.entity.EmployeeEntity;
+import lv.learning.spring_boot_with_mysql.model.request.EmployeeRequest;
 import lv.learning.spring_boot_with_mysql.repository.EmployeeRepository;
 import lv.learning.spring_boot_with_mysql.specification.EmployeeSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +20,24 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    // read all Employee records
-//    public List<Employee> readAllEmployees() {
-////        List<Employee> employees = new ArrayList<>();
+    // read all EmployeeEntity records
+//    public List<EmployeeEntity> readAllEmployees() {
+////        List<EmployeeEntity> employees = new ArrayList<>();
 ////        employeeRepository.findAll().forEach(employees::add);
 ////        return employees;
 //        // shorter version of the same as above
-//        return (List<Employee>) employeeRepository.findAll();
+//        return (List<EmployeeEntity>) employeeRepository.findAll();
 //    }
 
-    //    public Iterable<Employee> readEmployees(Integer start, Integer limit, Character gender) {
+    //    public Iterable<EmployeeEntity> readEmployees(Integer start, Integer limit, Character gender) {
     //public Object readEmployees(Integer start, Integer limit, Character gender, LocalDate hiredAfter, LocalDate hiredBefore, Sort sort) {
-    public Page<lv.learning.spring_boot_with_mysql.model.entity.Employee> readEmployees(Character gender, LocalDate hiredAfter, LocalDate hiredBefore, Sort sort, Pageable pageRequest) {
+    public Page<EmployeeEntity> readEmployees(Character gender, LocalDate hiredAfter, LocalDate hiredBefore, Sort sort, Pageable pageRequest) {
 //        if (gender == null && hiredAfter == null && hiredBefore == null) {
-////            List<Employee> employees = new ArrayList<>();
+////            List<EmployeeEntity> employees = new ArrayList<>();
 ////            employeeRepository.findAll().forEach(employees::add);
 ////            return employees;
 //            // shorter version of the same as above
-//            return (List<Employee>) employeeRepository.findAll();
+//            return (List<EmployeeEntity>) employeeRepository.findAll();
 //        }
 //        if (gender != null) {
 //            gender = Character.toUpperCase(gender);
@@ -65,7 +66,7 @@ public class EmployeeService {
 //                sort);
         Pageable paging = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize(), sort);
 
-        Page<lv.learning.spring_boot_with_mysql.model.entity.Employee> employees = employeeRepository.findAll(Specification
+        Page<EmployeeEntity> employees = employeeRepository.findAll(Specification
                         .where(gender == null ? null : EmployeeSpecification.hasGender(gender))
                         .and(hiredAfter == null ? null : EmployeeSpecification.hiredAfter(hiredAfter))
                         .and(hiredBefore == null ? null : EmployeeSpecification.hiredBefore(hiredBefore)),
@@ -76,64 +77,64 @@ public class EmployeeService {
     }
 
     // does not work atm
-//    public List<Employee> findPaginated(Integer pageNo, Integer pageSize) {
+//    public List<EmployeeEntity> findPaginated(Integer pageNo, Integer pageSize) {
 //        Pageable paging = PageRequest.of(pageNo, pageSize);
-//        Page<Employee> pageResult = employeeRepository.findAll(paging);
+//        Page<EmployeeEntity> pageResult = employeeRepository.findAll(paging);
 //
 //        return pageResult.toList();
 //    }
 
-    // read a single Employee record
-    public lv.learning.spring_boot_with_mysql.model.entity.Employee readEmployee(Integer emp_no) {
-//        Employee storedEmployee = employeeRepository.findById(emp_no).orElse(null);
+    // read a single EmployeeEntity record
+    public EmployeeEntity readEmployee(Integer emp_no) {
+//        EmployeeEntity storedEmployee = employeeRepository.findById(emp_no).orElse(null);
 //        return storedEmployee;
         return employeeRepository.findById(emp_no).orElse(null);
     }
 
-    // create new Employee record
-    public lv.learning.spring_boot_with_mysql.model.entity.Employee createEmployee(Employee employee) {
-//        System.out.println("Gender char before = " + employee.getGender());
-        employee.setGender(Character.toUpperCase(employee.getGender()));
-//        System.out.println("Gender char after = " + employee.getGender());
-        lv.learning.spring_boot_with_mysql.model.entity.Employee newEmployee = new lv.learning.spring_boot_with_mysql.model.entity.Employee();
-        newEmployee.setBirthDate(employee.getBirthDate());
-        newEmployee.setFirstName(employee.getFirstName());
-        newEmployee.setLastName(employee.getLastName());
-        newEmployee.setGender(employee.getGender());
-        newEmployee.setHireDate(employee.getHireDate());
-        return employeeRepository.save(newEmployee);
+    // create new EmployeeEntity record
+    public EmployeeEntity createEmployee(EmployeeRequest employeeRequest) {
+//        System.out.println("Gender char before = " + employeeRequest.getGender());
+        employeeRequest.setGender(Character.toUpperCase(employeeRequest.getGender()));
+//        System.out.println("Gender char after = " + employeeRequest.getGender());
+        EmployeeEntity newEmployeeEntity = new EmployeeEntity();
+        newEmployeeEntity.setBirthDate(employeeRequest.getBirthDate());
+        newEmployeeEntity.setFirstName(employeeRequest.getFirstName());
+        newEmployeeEntity.setLastName(employeeRequest.getLastName());
+        newEmployeeEntity.setGender(employeeRequest.getGender());
+        newEmployeeEntity.setHireDate(employeeRequest.getHireDate());
+        return employeeRepository.save(newEmployeeEntity);
     }
 
-    // update an Employee record
-    public lv.learning.spring_boot_with_mysql.model.entity.Employee updateEmployee(Integer emp_no, Employee updateRequest) {
-        lv.learning.spring_boot_with_mysql.model.entity.Employee storedEmployee = employeeRepository.findById(emp_no).orElse(null);
-        if (storedEmployee != null) {
-            if (updateRequest.getBirthDate() != null && !(updateRequest.getBirthDate().equals(storedEmployee.getBirthDate()))) {
-                storedEmployee.setBirthDate(updateRequest.getBirthDate());
+    // update an EmployeeEntity record
+    public EmployeeEntity updateEmployee(Integer emp_no, EmployeeRequest updateRequest) {
+        EmployeeEntity storedEmployeeEntity = employeeRepository.findById(emp_no).orElse(null);
+        if (storedEmployeeEntity != null) {
+            if (updateRequest.getBirthDate() != null && !(updateRequest.getBirthDate().equals(storedEmployeeEntity.getBirthDate()))) {
+                storedEmployeeEntity.setBirthDate(updateRequest.getBirthDate());
             }
-            if (updateRequest.getFirstName() != null && !(updateRequest.getFirstName().equalsIgnoreCase(storedEmployee.getFirstName()))) {
-                storedEmployee.setFirstName(updateRequest.getFirstName());
+            if (updateRequest.getFirstName() != null && !(updateRequest.getFirstName().equalsIgnoreCase(storedEmployeeEntity.getFirstName()))) {
+                storedEmployeeEntity.setFirstName(updateRequest.getFirstName());
             }
-            if (updateRequest.getLastName() != null && !(updateRequest.getLastName().equalsIgnoreCase(storedEmployee.getLastName()))) {
-                storedEmployee.setLastName(updateRequest.getLastName());
+            if (updateRequest.getLastName() != null && !(updateRequest.getLastName().equalsIgnoreCase(storedEmployeeEntity.getLastName()))) {
+                storedEmployeeEntity.setLastName(updateRequest.getLastName());
             }
             if (updateRequest.getGender() != null) {
                 updateRequest.setGender(Character.toUpperCase(updateRequest.getGender()));
-                if (!(updateRequest.getGender().equals(storedEmployee.getGender()))) {
-                    storedEmployee.setGender(updateRequest.getGender());
+                if (!(updateRequest.getGender().equals(storedEmployeeEntity.getGender()))) {
+                    storedEmployeeEntity.setGender(updateRequest.getGender());
                 }
             }
-            if (updateRequest.getHireDate() != null && !(updateRequest.getHireDate().equals(storedEmployee.getHireDate()))) {
-                storedEmployee.setHireDate(updateRequest.getHireDate());
+            if (updateRequest.getHireDate() != null && !(updateRequest.getHireDate().equals(storedEmployeeEntity.getHireDate()))) {
+                storedEmployeeEntity.setHireDate(updateRequest.getHireDate());
             }
 
-            return employeeRepository.save(storedEmployee);
+            return employeeRepository.save(storedEmployeeEntity);
         } else {
             return null;
         }
     }
 
-    // delete an Employee record
+    // delete an EmployeeEntity record
     public short deleteEmployee(Integer emp_no) {
         if (employeeRepository.findById(emp_no).orElse(null) != null) {
             employeeRepository.deleteById(emp_no);
