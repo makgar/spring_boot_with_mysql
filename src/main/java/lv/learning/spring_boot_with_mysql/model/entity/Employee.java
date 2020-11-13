@@ -1,4 +1,4 @@
-package lv.learning.spring_boot_with_mysql.model;
+package lv.learning.spring_boot_with_mysql.model.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "employees")
-public class EmployeeRest {
+public class Employee {
     @Id
     //@GeneratedValue(strategy=GenerationType.AUTO) //TABLE or IDENTITY
     /* None of the options above worked for me.

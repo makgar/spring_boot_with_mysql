@@ -111,25 +111,25 @@
                     </dependency>
                 </dependencies>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>build-helper-maven-plugin</artifactId>-->
-<!--&lt;!&ndash;                <version>1.3</version>&ndash;&gt;-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>add-source</id>-->
-<!--                        <phase>generate-sources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>add-source</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <sources>-->
-<!--                                <source>target/metamodel</source>-->
-<!--                            </sources>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.codehaus.mojo</groupId>-->
+            <!--                <artifactId>build-helper-maven-plugin</artifactId>-->
+            <!--&lt;!&ndash;                <version>1.3</version>&ndash;&gt;-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>add-source</id>-->
+            <!--                        <phase>generate-sources</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>add-source</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            <sources>-->
+            <!--                                <source>target/metamodel</source>-->
+            <!--                            </sources>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 

@@ -1,8 +1,7 @@
 package lv.learning.spring_boot_with_mysql.specification;
 
-import lv.learning.spring_boot_with_mysql.model.EmployeeRest;
-import lv.learning.spring_boot_with_mysql.model.EmployeeRest_;
-import org.springframework.data.domain.Sort;
+import lv.learning.spring_boot_with_mysql.model.entity.Employee;
+import lv.learning.spring_boot_with_mysql.model.entity.Employee_;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,32 +14,32 @@ public final class EmployeeSpecification {
 
 //    private EmployeeSpecification() {}
 
-    public static Specification<EmployeeRest> hasGender(Character gender) {
-        return new Specification<EmployeeRest>() {
+    public static Specification<Employee> hasGender(Character gender) {
+        return new Specification<Employee>() {
             @Override
-            public Predicate toPredicate(Root<EmployeeRest> root,
+            public Predicate toPredicate(Root<Employee> root,
                                          CriteriaQuery<?> query,
                                          CriteriaBuilder cb) {
 //                String filter = getGenderFilter(gender);
-                return cb.equal(root.get(EmployeeRest_.gender), gender);
+                return cb.equal(root.get(Employee_.gender), gender);
             }
         };
     }
 
-    public static Specification<EmployeeRest> hiredAfter(LocalDate hiredAfter) {
-        return new Specification<EmployeeRest>() {
+    public static Specification<Employee> hiredAfter(LocalDate hiredAfter) {
+        return new Specification<Employee>() {
             @Override
-            public Predicate toPredicate(Root<EmployeeRest> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.greaterThan(root.<LocalDate>get(EmployeeRest_.hireDate), hiredAfter);
+            public Predicate toPredicate(Root<Employee> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.greaterThan(root.<LocalDate>get(Employee_.hireDate), hiredAfter);
             }
         };
     }
 
-    public static Specification<EmployeeRest> hiredBefore(LocalDate hiredBefore) {
-        return new Specification<EmployeeRest>() {
+    public static Specification<Employee> hiredBefore(LocalDate hiredBefore) {
+        return new Specification<Employee>() {
             @Override
-            public Predicate toPredicate(Root<EmployeeRest> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.lessThan(root.<LocalDate>get(EmployeeRest_.hireDate), hiredBefore);
+            public Predicate toPredicate(Root<Employee> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.lessThan(root.<LocalDate>get(Employee_.hireDate), hiredBefore);
             }
         };
     }
