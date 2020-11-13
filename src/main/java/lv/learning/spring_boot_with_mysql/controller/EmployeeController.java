@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping(path = "/employees", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+@RequestMapping(path = "/employees", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class EmployeeController {
 
     @Autowired
@@ -32,13 +32,13 @@ public class EmployeeController {
 
     @GetMapping
     //public Object readAllEmployees(@RequestParam(value="start", defaultValue = "1", required = false) Integer start,
-                                   //@RequestParam(value="limit", defaultValue = "2147483647", required = false) Integer limit,
-                                   //@RequestParam(defaultValue = "lastName,asc") String[] sort,
-    public Page<EmployeeRest> readAllEmployees(@RequestParam(value="gender", required = false) Character gender,
-                                 @RequestParam(value="hiredAfter", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredAfter,
-                                 @RequestParam(value="hiredBefore", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredBefore,
-                                 @SortDefault(sort = "lastName", direction = Sort.Direction.ASC) Sort sort,
-                                 Pageable pageRequest) {
+    //@RequestParam(value="limit", defaultValue = "2147483647", required = false) Integer limit,
+    //@RequestParam(defaultValue = "lastName,asc") String[] sort,
+    public Page<EmployeeRest> readAllEmployees(@RequestParam(value = "gender", required = false) Character gender,
+                                               @RequestParam(value = "hiredAfter", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredAfter,
+                                               @RequestParam(value = "hiredBefore", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hiredBefore,
+                                               @SortDefault(sort = "lastName", direction = Sort.Direction.ASC) Sort sort,
+                                               Pageable pageRequest) {
 //        return employeeService.readEmployees(start, limit, gender, hiredAfter, hiredBefore, sort);
         return employeeService.readEmployees(gender, hiredAfter, hiredBefore, sort, pageRequest);
     }

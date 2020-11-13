@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public class EmployeeRequest {
     @NotNull
     private LocalDate birthDate;
-//    private String birthDate;
+    //    private String birthDate;
     @NotNull
     @Size(min = 1, max = 14)
     private String firstName;
@@ -18,7 +18,7 @@ public class EmployeeRequest {
     private Character gender;
     @NotNull
     private LocalDate hireDate;
-//    private String hireDate;
+    //    private String hireDate;
 
     public LocalDate getBirthDate() {
         return birthDate;

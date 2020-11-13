@@ -16,9 +16,12 @@ import java.util.List;
 
 @Repository
 public interface EmployeeRepository extends PagingAndSortingRepository<EmployeeRest, Integer>, JpaSpecificationExecutor<EmployeeRest> {
-    List<EmployeeRest> findFirst10ByGender(Character gender);
+    //    List<EmployeeRest> findFirst10ByGender(Character gender);
+    List<EmployeeRest> findByGender(Character gender);
 
-    List<EmployeeRest> findFirst10ByHireDateAfter(LocalDate hireAfter);
+    //    List<EmployeeRest> findFirst10ByHireDateAfter(LocalDate hireAfter);
+    List<EmployeeRest> findByHireDateAfter(LocalDate hireAfter);
 
-    List<EmployeeRest> findFirst10ByHireDateBefore(LocalDate hiredBefore);
+    //    List<EmployeeRest> findFirst10ByHireDateBefore(LocalDate hiredBefore);
+    List<EmployeeRest> findByHireDateBefore(LocalDate hiredBefore);
 }
