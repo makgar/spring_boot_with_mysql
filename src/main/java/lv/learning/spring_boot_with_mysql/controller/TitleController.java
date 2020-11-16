@@ -20,8 +20,12 @@ public class TitleController {
     private TitleService titleService;
 
     @GetMapping
-    public Page<TitleEntity> readTitles(@SortDefault(sort = "title", direction = Sort.Direction.DESC) Sort sort,
-                                        Pageable pageRequest) {
+    public Page<TitleEntity> readTitles(
+            // Does not work atm
+            @SortDefault(sort = "titlePk.title", direction = Sort.Direction.ASC)
+            Sort sort,
+            Pageable pageRequest
+    ) {
         return titleService.readTitles(sort, pageRequest);
     }
 }
