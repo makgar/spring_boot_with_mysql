@@ -25,6 +25,9 @@ public class TitleEntity {
     private TitlePK titlePk;
     @Column(name = "to_date")
     private LocalDate toDate;
+//    @ManyToOne(cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "emp_no")
+//    private EmployeeEntity employeeEntity;
 
     /* Temp solution with incorrect primary key
     //    public Integer getEmpNo() {
